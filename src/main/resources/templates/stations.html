@@ -14,7 +14,9 @@
         <tr th:each="station : ${stationList}">
             <td th:text = "${station.station_Name}">Name</td>
             <td th:text = "${station.station_Date}">Date</td>
-            <td th:test = "${station.mean_Temp}">Mean Temp</td>
+            <td>
+            <a th:href = "@{/details?name={stationName}(stationName=${station.station_Name})}" th:text = "${station.mean_Temp}">Mean Temp</a>
+            </td>
         </tr>
     </table>
 </body>

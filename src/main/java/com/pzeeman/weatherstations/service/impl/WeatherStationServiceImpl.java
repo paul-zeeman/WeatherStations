@@ -17,4 +17,7 @@ public class WeatherStationServiceImpl implements WeatherStationService {
     public List<Station> getStations() {
         return weatherStationRepository.getStations();
     }
+
+    @Override
+    public Station getStation(String station_name) { return weatherStationRepository.getStation(station_name); }
 }

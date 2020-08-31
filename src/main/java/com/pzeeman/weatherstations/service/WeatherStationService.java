@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WeatherStationService {
     public abstract List<Station> getStations();
+
+    public abstract Station getStation(String station_name);
 }

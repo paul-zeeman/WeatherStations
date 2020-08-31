@@ -18,4 +18,13 @@ public class WeatherStationRepository {
     public List<Station> getStations() {
         return jdbcTemplate.query("select * from STATIONS", new WeatherStationRowMapper());
     }
+
+    @Transactional
+    public Station getStation(String station_name) {
+        Station returnStation = new Station();
+         List<Station> matchingStations =  jdbcTemplate.query( "select * FROM STATIONS where Station_Name='"+station_name+"'", new WeatherStationRowMapper());
+         if (matchingStations.size() == 1)
+             returnStation = matchingStations.get(0);
+         return returnStation;
+    }
 }
