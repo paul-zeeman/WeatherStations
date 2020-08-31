@@ -1,5 +1,8 @@
 package com.pzeeman.weatherstations.model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Station {
 
     String station_Name;
@@ -8,6 +11,8 @@ public class Station {
     String mean_Temp;
     String highest_Monthly_Maxi_Temp;
     String lowest_Monthly_Min_Temp;
+    LocalDate dateObject;
+
 
     public String getStation_Name() { return station_Name; }
     public void setStation_Name(String station_Name) { this.station_Name = station_Name; }
@@ -16,9 +21,14 @@ public class Station {
     public String getStation_Date() {
         return this.station_Date;
     }
+    // Assuming that the input string will always be formatted as mm/dd/yyyy.
+    // If we need to handle different formats, we'll need to implement a new parser
     public void setStation_Date(String dateString) {
         this.station_Date = dateString;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        dateObject = LocalDate.parse(dateString,formatter);
     }
+    public LocalDate getDateObject() { return this.dateObject; }
     public String getMean_Temp() { return mean_Temp; }
     public void setMean_Temp(String meanTempString){ this.mean_Temp = meanTempString; }
     public String getLowest_Monthly_Min_Temp() { return lowest_Monthly_Min_Temp; }

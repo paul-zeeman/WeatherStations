@@ -2,6 +2,7 @@ package com.pzeeman.weatherstations.controller;
 
 import com.pzeeman.weatherstations.model.Station;
 import com.pzeeman.weatherstations.service.WeatherStationService;
+import com.pzeeman.weatherstations.utils.StationsByDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -21,8 +23,10 @@ public class WeatherStationServiceController {
     public ModelAndView getStations() {
         ModelAndView modelAndView = new ModelAndView();
         List<Station> stationList = weatherStationService.getStations();
+        List<Station> sortedStationList = stationList;
+        Collections.sort(sortedStationList,new StationsByDate());
         modelAndView.setViewName("stations");
-        modelAndView.addObject("stationList", stationList);
+        modelAndView.addObject("stationList", sortedStationList);
         return modelAndView;
     }
 
@@ -34,4 +38,6 @@ public class WeatherStationServiceController {
         modelAndView.addObject("station", station);
         return modelAndView;
     }
+
+
 }
