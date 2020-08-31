@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Weather Stations</title>
+</head>
+<body>
+    <table border = "1">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Mean Temperature</th>
+        </tr>
+        <tr th:each="station : ${stationList}">
+            <td th:text = "${station.station_Name}">Name</td>
+            <td th:text = "${station.station_Date}">Date</td>
+            <td th:test = "${station.mean_Temp}">Mean Temp</td>
+        </tr>
+    </table>
+</body>
+</html>

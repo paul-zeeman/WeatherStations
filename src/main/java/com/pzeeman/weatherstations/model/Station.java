@@ -2,23 +2,22 @@ package com.pzeeman.weatherstations.model;
 
 public class Station {
 
-    String name;
+    String station_Name;
     String province;
-    String date;
+    String station_Date;
     String mean_Temp;
     String highest_Monthly_Maxi_Temp;
     String lowest_Monthly_Min_Temp;
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getStation_Name() { return station_Name; }
+    public void setStation_Name(String station_Name) { this.station_Name = station_Name; }
     public String getProvince() { return province; }
     public void setProvince(String province) {this.province = province; }
-    public String getDate() {
-        return this.date;
+    public String getStation_Date() {
+        return this.station_Date;
     }
-
-    public void setDate(String dateString) {
-        this.date = dateString;
+    public void setStation_Date(String dateString) {
+        this.station_Date = dateString;
     }
     public String getMean_Temp() { return mean_Temp; }
     public void setMean_Temp(String meanTempString){ this.mean_Temp = meanTempString; }
@@ -28,7 +27,7 @@ public class Station {
     public void setHighest_Monthly_Maxi_Temp(String highestMonthlyMaximumTempString) {this.highest_Monthly_Maxi_Temp = highestMonthlyMaximumTempString;}
 
     public String toString() {
-        return ("name= " + name + ", province=" + province +", date="+ date +", mean_Temp="+ mean_Temp + ", highest_Monthly_Maxi_Temp=" + highest_Monthly_Maxi_Temp + ", lowest_Monthly_Min_Temp="+ lowest_Monthly_Min_Temp);
+        return ("station_name= " + station_Name + ", province=" + province +", date="+ station_Date +", mean_Temp="+ mean_Temp + ", highest_Monthly_Maxi_Temp=" + highest_Monthly_Maxi_Temp + ", lowest_Monthly_Min_Temp="+ lowest_Monthly_Min_Temp);
 
     }
 }
