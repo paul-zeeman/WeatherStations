@@ -2,22 +2,111 @@
 <html xmlns:th="http://thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Display Weather Stations</title>
+    <title>Display Weather Stations Filtered</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css" rel="stylesheet">
 </head>
 <body>
+    <table border="0">
+        <tr>
+            <td>Start Date</td><td><input id="datepickerStart" type="text" onchange="changedStartDate()"/></td>
+            <td><input type="button" value="Filter" id="filterButton" onclick="filter()" disabled=true></td>
+            <td><input type="button" value="Clear Filter" id="clearFilterButton" onclick="clearFilter()" disabled=true></td>
+        </tr>
+        <tr>
+            <td>End Date</td><td><input id="datepickerEnd" type="text" onchange="changedEndDate()" disabled=true/></td>
+            <td id="filterErrorText" style="color:red"></td>
+        </tr>
+    </table>
+    <p></p>
+    <div id="stationTable">
     <table border = "1">
         <tr>
             <th>Name</th>
             <th>Date</th>
             <th>Mean Temperature</th>
         </tr>
+        <div id="thymeleafStationTr">
         <tr th:each="station : ${stationList}">
             <td th:text = "${station.station_Name}">Name</td>
-            <td th:text = "${station.station_Date}">Date</td>
+            <td th:text = "${station.dateObject}">Date</td>
             <td>
             <a th:href = "@{/details?name={stationName}(stationName=${station.station_Name})}" th:text = "${station.mean_Temp}">Mean Temp</a>
             </td>
         </tr>
+        </div>
     </table>
+    </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var stations = /*[[${stationList}]]*/;
+    /*]]>*/
+
+    var dateFormatString = "yy-mm-dd";
+
+    $("#datepickerStart").datepicker({changeYear: true, dateFormat: dateFormatString});
+    $("#datepickerEnd").datepicker({changeYear: true, dateFormat: dateFormatString});
+
+    var tableRowCells = "<td th:text = \"${station.station_Name}\">Name</td> <td th:text = \"${station.station_Date}\">Date</td><td><a th:href = \"@{/details?name={stationName}(stationName=${station.station_Name})}\" th:text = \"${station.mean_Temp}\">Mean Temp</a></td>";
+    var allRows = "<tr th:each=\"station : ${stationList}\">";
+    var filteredRows = "<tr th:each=\"station : ${stationList}\" th:if=\"${station.dateObject.after(#datepickerStart.val)}\">"
+    var endTableRow = "</tr>"
+
+    function clearFilter(){
+       $("#datepickerStart").val("");
+       $("#datepickerEnd").val("");
+       $("#clearFilterButton").prop("disabled",true);
+       $("#datepickerEnd").prop("disabled",true);
+       $("#filterButton").prop("disabled",true);       // Call all table API
+       //$("#thymeleafStationTr").val(allRows+tableRowCells+endTableRow);
+    }
+
+    function filter(){
+        var filterStartDate = $("#datepickerStart").val();
+        var filterEndDate = $("#datepickerEnd").val();
+        // Call filter table API
+        $.ajax({'url' : 'localhost:8080/stations?startDate='+filterStartDate+'&endDate='+filterEndDate,
+                'type' : 'GET'});
+    }
+
+    function changedStartDate(){
+        if ($("#datepickerStart").val() != {} )
+        {
+            var startDate = $("#datepickerStart").val();
+            $("#clearFilterButton").prop("disabled",false);
+            $("#datepickerEnd").datepicker("setDate", startDate);
+            $("#datepickerEnd").prop("disabled",false);
+            $("#filterButton").prop("disabled",false);
+        }
+        else if ($("#datepickerStart").val() == {} )
+        {
+            $("#clearFilterButton").prop("disabled",true);
+            $("#datepickerEnd").prop("disabled",true);
+            $("#filterButton").prop("disabled",true);
+        }
+    }
+
+    function changedEndDate(){
+        if ($("#datepickerEnd").val() != {})
+        {
+            console.log("enddate is valid");
+            var startDate = $("#datepickerStart").datepicker("getDate");
+            var endDate = $("#datepickerEnd").datepicker("getDate");
+            if (endDate >= startDate)
+            {
+                $("#filterButton").prop("disabled",false); 
+                $("#filterErrorText").empty();            
+            }
+            else
+            {
+                $("#filterButton").prop("disabled",true);               
+                $("#filterErrorText").text("End Date must be the same or after start date");
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
