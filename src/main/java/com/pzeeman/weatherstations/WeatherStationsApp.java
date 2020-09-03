@@ -21,7 +21,7 @@ import java.sql.SQLException;
 @EnableScheduling
 @Component
 // https://github.com/avinash28196/SpringBatch-LoadingCSVFileToH2Database
-public class SpringBatchApp
+public class WeatherStationsApp
 {
     @Autowired
     JobLauncher jobLauncher;
@@ -31,7 +31,7 @@ public class SpringBatchApp
       
     public static void main(String[] args) {
 
-        SpringApplication.run(SpringBatchApp.class, args);
+        SpringApplication.run(WeatherStationsApp.class, args);
     }
 
     /**
