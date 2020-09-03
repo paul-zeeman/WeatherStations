@@ -32,7 +32,7 @@ public class WeatherStationServiceController {
     }
 
     @RequestMapping(value="/filteredStations", method = RequestMethod.GET)
-    public String getFilteredStations(@RequestParam(required = true) Map<String, String> allParams, Model model) {
+    public String getFilteredStations(@RequestParam(required = false) Map<String, String> allParams, Model model) {
         List<Station> stationList = weatherStationService.getStations();
         if (allParams.size() == 2) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

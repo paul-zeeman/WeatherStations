@@ -36,19 +36,17 @@
 
 </head>
 <body>
-    <form action="http://localhost:8080" th:action="@{/stations}" th:object="${stationList}" method="GET" id="filterForm">
     <div class="divTable">
         <div class="divRow">
             <div class="divCellFirst">Start Date</div><div class=divCell><input name="startDate" id="datepickerStart" type="text" onchange="changedStartDate()"/></div>
             <div class="divCell"><button type="button" id="filterButton" onclick="filter()" disabled=true>Filter</button>
-            <button type="submit" id="clearFilterButton" onclick="clearFilter()">Clear Filter</button></div>
+                <button type="button" id="clearFilterButton" onclick="clearFilter()">Clear Filter</button></div>
         </div>
         <div class="divRow">
             <div class="divCellFirst">End Date</div><div class="divCell"><input name="endDate" id="datepickerEnd" type="text" onchange="changedEndDate()" disabled=true/></div>
             <div class="divCell" id="filterErrorText" style="color:red" colspan="2"></div>
         </div>
     </div>
-    </form>
     <p></p>
     <table th:replace="~{stationTable :: stationTable}" id="stationTable">&nbsp;</table>
     <script th:inline="javascript">
@@ -71,6 +69,16 @@
        changedStartDate();
        changedEndDate();
        $("#filterErrorText").empty();
+       $.ajax({
+            url : "filteredStations",
+            success : function(fragment) {
+               $("#stationTable").replaceWith(fragment);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error in AJAX filter call"); 
+                console.log(textStatus);
+            }
+        });
     }
 
     function changedStartDate(){
