@@ -2,7 +2,7 @@
 <html xmlns:th="http://thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Display Weather Stations Filtered</title>
+    <title>Display Weather Stations</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
@@ -36,12 +36,12 @@
 
 </head>
 <body>
-    <form action="http://localhost:8080" th:action="@{/stations}" th:object="${stationList}" method="GET">
+    <form action="http://localhost:8080" th:action="@{/stations}" th:object="${stationList}" method="GET" id="filterForm">
     <div class="divTable">
         <div class="divRow">
             <div class="divCellFirst">Start Date</div><div class=divCell><input name="startDate" id="datepickerStart" type="text" onchange="changedStartDate()"/></div>
-            <div class="divCell"><button type="submit" id="filterButton" onclick="filter()" disabled=true>Filter</button>
-            <button type="submit" id="clearFilterButton" onclick="clearFilter()" disabled=true>Clear Filter</button></div>
+            <div class="divCell"><button type="button" id="filterButton" onclick="filter()" disabled=true>Filter</button>
+            <button type="submit" id="clearFilterButton" onclick="clearFilter()">Clear Filter</button></div>
         </div>
         <div class="divRow">
             <div class="divCellFirst">End Date</div><div class="divCell"><input name="endDate" id="datepickerEnd" type="text" onchange="changedEndDate()" disabled=true/></div>
@@ -50,28 +50,10 @@
     </div>
     </form>
     <p></p>
-    <div th:fragment="stationTable">
-    <table border = "1">
-        <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Mean Temperature</th>
-        </tr>
-        <div id="thymeleafStationTr">
-        <tr th:each="station : ${stationList}">
-            <td th:text = "${station.station_Name}">Name</td>
-            <td th:text = "${station.dateObject}">Date</td>
-            <td>
-                <a th:href="@{/details(name=${station.station_Name})}" th:text = "${station.mean_Temp}">Mean Temp</a>
-            </td>
-        </tr>
-        </div>
-    </table>
-    </div>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var stations = /*[[${stationList}]]*/;
-    /*]]>*/
+    <table th:replace="~{stationTable :: stationTable}" id="stationTable">&nbsp;</table>
+    <script th:inline="javascript">
+
+    var frm = $('#contactForm1');
 
     var dateFormatString = "yy-mm-dd";
 
@@ -88,18 +70,13 @@
        $("#datepickerEnd").val("");
        changedStartDate();
        changedEndDate();
-       $("#filterErrorText").empty();      
-      // Call all table API
-       //$("#thymeleafStationTr").val(allRows+tableRowCells+endTableRow);
+       $("#filterErrorText").empty();
     }
 
     function filter(){
         var filterStartDate = $("#datepickerStart").val();
         var filterEndDate = $("#datepickerEnd").val();
-        // Call filter table API
-        $.ajax({'url' : 'localhost:8080/stations?startDate='+filterStartDate+'&endDate='+filterEndDate,
-                'type' : 'GET'});
-    }
+   }
 
     function changedStartDate(){
         if ($("#datepickerStart").val().length != 0 )
@@ -114,7 +91,6 @@
         else if ($("#datepickerStart").val().length == 0 )
         {
             console.log("Start Date is blank");
-            $("#clearFilterButton").prop("disabled",true);
             $("#datepickerEnd").prop("disabled",true);
             $("#filterButton").prop("disabled",true);
             $("#datePickerEnd").empty();
@@ -146,10 +122,22 @@
         }
     }
 
-    function showDetails() {
-
+    function filter () {
+        $.ajax({
+            url : "filteredStations",
+            data : {
+                "startDate" : $("#datepickerStart").val(),
+                "endDate"   : $("#datepickerEnd").val()
+            },
+            success : function(fragment) {
+               $("#stationTable").replaceWith(fragment);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error in AJAX"); 
+                console.log(textStatus);
+            }
+        });
     }
 </script>
-
 </body>
 </html>
