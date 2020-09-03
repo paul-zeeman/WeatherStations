@@ -2,7 +2,6 @@ package com.pzeeman.weatherstations.controller;
 
 import com.pzeeman.weatherstations.model.Station;
 import com.pzeeman.weatherstations.service.WeatherStationService;
-import com.pzeeman.weatherstations.utils.StationsByDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
