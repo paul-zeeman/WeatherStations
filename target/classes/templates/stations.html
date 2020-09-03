@@ -109,12 +109,14 @@
             {
                 $("#filterButton").prop("disabled",true);               
                 $("#filterErrorText").text("End Date must be the same or after start date");
+                $("#filterErrorText").attr("style", "color:red");
             }
         }
         else
         {
             $("#filterButton").prop("disabled",true);               
             $("#filterErrorText").text("End Date must be the same or after start date");
+            $("#filterErrorText").attr("style", "color:red");
         }
     }
 
@@ -133,6 +135,8 @@
                 console.log(textStatus);
             }
         });
+        $("#filterErrorText").text("Filtered");
+        $("#filterErrorText").attr("style", "color:green");
     }
 </script>
 </body>
