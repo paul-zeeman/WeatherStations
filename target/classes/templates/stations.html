@@ -80,9 +80,7 @@
 
     function changedStartDate(){
         if ($("#datepickerStart").val().length != 0 )
-        {
-            console.log("Start Date is not blank")
-            var startDate = $("#datepickerStart").val();
+        {            var startDate = $("#datepickerStart").val();
             $("#clearFilterButton").prop("disabled",false);
             $("#datepickerEnd").datepicker("setDate", startDate);
             $("#datepickerEnd").prop("disabled",false);
@@ -90,7 +88,6 @@
         }
         else if ($("#datepickerStart").val().length == 0 )
         {
-            console.log("Start Date is blank");
             $("#datepickerEnd").prop("disabled",true);
             $("#filterButton").prop("disabled",true);
             $("#datePickerEnd").empty();
@@ -101,7 +98,6 @@
     function changedEndDate(){
         if ($("#datepickerEnd").val().length != 0)
         {
-            console.log("enddate is valid");
             var startDate = $("#datepickerStart").datepicker("getDate");
             var endDate = $("#datepickerEnd").datepicker("getDate");
             if (endDate >= startDate)
@@ -133,7 +129,7 @@
                $("#stationTable").replaceWith(fragment);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error in AJAX"); 
+                console.log("Error in AJAX filter call"); 
                 console.log(textStatus);
             }
         });

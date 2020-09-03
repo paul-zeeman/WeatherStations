@@ -30,7 +30,10 @@ public class Station {
     }
     public LocalDate getDateObject() { return this.dateObject; }
     public String getMean_Temp() { return mean_Temp; }
-    public void setMean_Temp(String meanTempString){ this.mean_Temp = meanTempString; }
+    public void setMean_Temp(String meanTempString){
+        if (meanTempString.isEmpty())
+            meanTempString = "Unavailable";
+        this.mean_Temp = meanTempString; }
     public String getLowest_Monthly_Min_Temp() { return lowest_Monthly_Min_Temp; }
     public void setLowest_Monthly_Min_Temp(String lowestMonthlyMinimumTempString) { this.lowest_Monthly_Min_Temp = lowestMonthlyMinimumTempString;}
     public String getHighest_Monthly_Maxi_Temp() { return highest_Monthly_Maxi_Temp; }
