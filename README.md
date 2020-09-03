@@ -24,3 +24,10 @@ mvn spring-boot:run
 
 After the application has launched, it can be accessed by navigating to ``localhost:8080/stations``
 
+## Running Unit Tests
+
+This project leverages the Surefire plugin for execution of test cases from the command line
+
+```shell script
+mvn surefire:test
+```
