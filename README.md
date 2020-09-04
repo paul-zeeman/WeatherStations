@@ -26,8 +26,6 @@ After the application has launched, it can be accessed by navigating to ``localh
 
 ## Running Unit Tests
 
-This project leverages the Surefire plugin for execution of test cases from the command line
+Tests are not being detected from the ```mvn``` command line.
 
-```shell script
-mvn surefire:test
-```
+All Tests can be run from an IDE.
