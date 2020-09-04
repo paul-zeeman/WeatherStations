@@ -1,5 +1,5 @@
 package com.pzeeman.weatherstations;
- 
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.sql.SQLException;
- 
+
 @SpringBootApplication
 @EnableBatchProcessing
 @EnableScheduling
@@ -25,10 +25,10 @@ public class WeatherStationsApp
 {
     @Autowired
     JobLauncher jobLauncher;
-      
+
     @Autowired
     Job job;
-      
+
     public static void main(String[] args) {
 
         SpringApplication.run(WeatherStationsApp.class, args);
@@ -36,7 +36,7 @@ public class WeatherStationsApp
 
     /**
      * This Job Will Run Once the all the beans are created and job will load the database with given csv file.
-     * 
+     *
      */
 //    @Scheduled(cron = "0 */1 * * * ?")
     @PostConstruct
@@ -48,9 +48,9 @@ public class WeatherStationsApp
     }
 
     /**
-     * 
+     *
      * This will enable other apps to interact with h2 database with tcp port 8090
-     * 
+     *
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server h2Server() throws SQLException {

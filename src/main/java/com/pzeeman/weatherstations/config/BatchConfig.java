@@ -51,7 +51,7 @@ public class BatchConfig {
                 .start(step())
                 .build();
     }
-
+    
     /**
      * StepBuilder which sets the JobRepository and PlatformTransactionManager automatically
      */
@@ -66,7 +66,7 @@ public class BatchConfig {
                 .writer(writer())
                 .build();
     }
-
+    
     /**
      * Prints the Logs in the console.
      * @return
@@ -81,7 +81,7 @@ public class BatchConfig {
      * FlatFileItemReader<T> Restartable ItemReader that reads lines from input setResource(Resource).
      * @return
      */
-
+    
     @Bean
     public FlatFileItemReader<Station> reader() {
         FlatFileItemReader<Station> itemReader = new FlatFileItemReader<Station>();
@@ -90,7 +90,7 @@ public class BatchConfig {
         itemReader.setResource(inputResource);
         return itemReader;
     }
-
+    
 
 
     /**
@@ -154,7 +154,7 @@ public class BatchConfig {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         BeanWrapperFieldSetMapper<Station> fieldSetMapper = new BeanWrapperFieldSetMapper<Station>();
 
-        lineTokenizer.setNames(new String[]{"station_name", "province", "station_Date", "meanTemp", "highestMonthlyMaxTemp", "lowestMonthlyMinTemp" });
+        lineTokenizer.setNames(new String[]{"station_name", "province", "station_date", "meanTemp", "highestMonthlyMaxTemp", "lowestMonthlyMinTemp" });
         lineTokenizer.setIncludedFields(new int[]{0, 1, 2, 3, 4, 5});
         fieldSetMapper.setTargetType(Station.class);
         lineMapper.setLineTokenizer(lineTokenizer);
