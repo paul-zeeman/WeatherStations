@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class WeatherStationServiceController {
+public class WeatherStationsController {
 
     @Autowired
     WeatherStationService weatherStationService;
@@ -27,25 +27,13 @@ public class WeatherStationServiceController {
     @RequestMapping(value="/stations", method = RequestMethod.GET)
     public String getStations(Model model) {
         List<Station> stationList = weatherStationService.getStations();
-        System.out.println("Total Number of Stations " + stationList.size());
         model.addAttribute("stationList", stationList);
         return "stations";
     }
 
     @RequestMapping(value="/filteredStations", method = RequestMethod.GET)
     public String getFilteredStations(@RequestParam(required = false) Map<String, String> allParams, Model model) {
-        List<Station> stationList = weatherStationService.getStations();
-        if (allParams.size() == 2) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startDateObject = LocalDate.parse(allParams.get("startDate"), dateTimeFormatter);
-            LocalDate endDateObject = LocalDate.parse(allParams.get("endDate"), dateTimeFormatter);
-
-            stationList = stationList.stream().filter(s -> (s.getDateObject().isEqual(startDateObject) ||
-                    s.getDateObject().isEqual(endDateObject)) ||
-                    (s.getDateObject().isAfter(startDateObject) && s.getDateObject().isBefore(endDateObject)))
-                    .collect(Collectors.toList());
-        }
-        System.out.println("Number of filtered stations " + stationList.size());
+        List<Station> stationList = weatherStationService.getStationsInDates(allParams.get("startDate"),allParams.get("endDate"));
         model.addAttribute("stationList", stationList);
         return "stations :: #stationTable";
     }

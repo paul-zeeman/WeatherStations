@@ -71,6 +71,10 @@
        $("#filterErrorText").empty();
        $.ajax({
             url : "filteredStations",
+            data : {
+                startDate : "",
+                endDate : "" 
+            },
             success : function(fragment) {
                $("#stationTable").replaceWith(fragment);
             },

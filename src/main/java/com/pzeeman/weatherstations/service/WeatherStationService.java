@@ -9,4 +9,6 @@ public interface WeatherStationService {
     public abstract List<Station> getStations();
 
     public abstract Station getStation(String station_name);
+
+    public abstract List<Station> getStationsInDates(String startDate, String endDate);
 }

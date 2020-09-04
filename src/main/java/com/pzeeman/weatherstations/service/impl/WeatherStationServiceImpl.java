@@ -6,7 +6,12 @@ import com.pzeeman.weatherstations.service.WeatherStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WeatherStationServiceImpl implements WeatherStationService {
@@ -20,4 +25,26 @@ public class WeatherStationServiceImpl implements WeatherStationService {
 
     @Override
     public Station getStation(String station_name) { return weatherStationRepository.getStation(station_name); }
+
+    @Override
+    public List<Station> getStationsInDates(String startDate, String endDate) {
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDateObject = LocalDate.now();
+        LocalDate endDateObject = LocalDate.now();
+        try {
+             startDateObject = LocalDate.parse(startDate, dateTimeFormatter);
+             endDateObject = LocalDate.parse(endDate, dateTimeFormatter);
+        }
+        catch (DateTimeParseException dtpe) {
+            return getStations();
+        }
+        final LocalDate finalStartDateObject = startDateObject;
+        final LocalDate finalEndDateObject = endDateObject;
+
+        return  weatherStationRepository.getStations().stream().filter(s -> (s.getDateObject().isEqual( finalStartDateObject) ||
+                s.getDateObject().isEqual(finalEndDateObject)) ||
+                (s.getDateObject().isAfter(finalStartDateObject) && s.getDateObject().isBefore(finalEndDateObject)))
+                .collect(Collectors.toList());
+    }
 }

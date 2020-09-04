@@ -37,14 +37,14 @@ public class BatchConfig {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
-    @Value("classPath:/input/eng-climate-summary.csv")
+    @Value("classpath:/input/eng-climate-summary.csv")
     private Resource inputResource;
 
     /**
      * JobBuilderFactory(JobRepository jobRepository)  Convenient factory for a JobBuilder which sets the JobRepository automatically
      */
     @Bean
-    public Job readCSVFileJob() {
+    public Job service() {
         return jobBuilderFactory
                 .get("readCSVFileJob")
                 .incrementer(new RunIdIncrementer())
@@ -90,6 +90,7 @@ public class BatchConfig {
         itemReader.setResource(inputResource);
         return itemReader;
     }
+
     
 
 
@@ -108,7 +109,7 @@ public class BatchConfig {
      * BATCH_JOB_EXECUTION
      * BATCH_JOB_INSTANCE
      *
-     * Station.sql will create HOTLE table in h2 database
+     * Station.sql will create SERVICE table in h2 database
      *
      */
 
