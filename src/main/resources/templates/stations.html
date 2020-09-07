@@ -9,6 +9,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css" rel="stylesheet">
 
     <style type="text/css">
+    /* This style is to allow a table using divs, for better layout of the
+     * filter button interface 
+     */
         .divTable
         {
             display:  table;
@@ -35,8 +38,10 @@
     </style>
 
 </head>
-<body>
+<!-- clear the filter on page load so we don't have stale data in the interface -->
+<body onload="javascript:clearFilter()">
     <div class="divTable">
+        <!-- This div is the layout for the date filter interface -->
         <div class="divRow">
             <div class="divCellFirst">Start Date</div><div class=divCell><input name="startDate" id="datepickerStart" type="text" onchange="changedStartDate()"/></div>
             <div class="divCell"><button type="button" id="filterButton" onclick="filter()" disabled=true>Filter</button>
@@ -48,21 +53,21 @@
         </div>
     </div>
     <p></p>
-    <table th:replace="~{stationTable :: stationTable}" id="stationTable">&nbsp;</table>
+    <table th:replace="~{stationTable :: stationTable}" id="stationTable">
+    <!-- This is where the table of stations will go.  It is replaced
+        dynamically based on the value in the filter -->
+        &nbsp;
+    </table>
     <script th:inline="javascript">
-
-    var frm = $('#contactForm1');
 
     var dateFormatString = "yy-mm-dd";
 
     $("#datepickerStart").datepicker({changeYear: true, dateFormat: dateFormatString});
     $("#datepickerEnd").datepicker({changeYear: true, dateFormat: dateFormatString});
 
-    var tableRowCells = "<td th:text = \"${station.station_Name}\">Name</td> <td th:text = \"${station.station_Date}\">Date</td><td><a th:href = \"@{/details?name={stationName}(stationName=${station.station_Name})}\" th:text = \"${station.mean_Temp}\">Mean Temp</a></td>";
-    var allRows = "<tr th:each=\"station : ${stationList}\">";
-    var filteredRows = "<tr th:each=\"station : ${stationList}\" th:if=\"${station.dateObject.after(#datepickerStart.val)}\">"
-    var endTableRow = "</tr>"
-
+    // All these functions could be moved to their own external static files.
+    // I was having a hard time getting it to work with Thymeleaf, so leaving them
+    // here
     function clearFilter(){
        $("#datepickerStart").val("");
        $("#datepickerEnd").val("");
