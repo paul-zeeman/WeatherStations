@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,13 +34,14 @@ public class WeatherStationServiceImpl implements WeatherStationService {
         try {
              startDateObject = LocalDate.parse(startDate, dateTimeFormatter);
              endDateObject = LocalDate.parse(endDate, dateTimeFormatter);
-        }
-        catch (DateTimeParseException dtpe) {
+        } catch (DateTimeParseException dtpe) {
+            // If we can't parse the dates, just give back the unfiltered list
             return getStations();
         }
         final LocalDate finalStartDateObject = startDateObject;
         final LocalDate finalEndDateObject = endDateObject;
 
+        // Return the list of stations that are between the start date and end date inclusively.
         return  weatherStationRepository.getStations().stream().filter(s -> (s.getDateObject().isEqual( finalStartDateObject) ||
                 s.getDateObject().isEqual(finalEndDateObject)) ||
                 (s.getDateObject().isAfter(finalStartDateObject) && s.getDateObject().isBefore(finalEndDateObject)))

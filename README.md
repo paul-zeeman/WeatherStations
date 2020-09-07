@@ -29,3 +29,11 @@ After the application has launched, it can be accessed by navigating to ``localh
 Tests are not being detected from the ```mvn``` command line.
 
 All Tests can be run from an IDE.
+
+## Possible improvements
+- When navigating back to the main station list from the station details, the filter is lost
+- From an architecture and maintenance pov, the in-line js functions in templates/stations.html could be refactored
+  into their own files
+- More unit tests can be added the backend to follow possible error paths
+- A front-end unit testing framework such as Jest could be introduced to verify the
+ functions executed in the browser

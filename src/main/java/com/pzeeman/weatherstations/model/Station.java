@@ -30,6 +30,8 @@ public class Station {
     }
     public LocalDate getDateObject() { return this.dateObject; }
     public String getMean_Temp() { return mean_Temp; }
+    // For some consistency, when there is no temperature set, the field
+    // will be set to 'Unavailable' for all three temperature settings.
     public void setMean_Temp(String meanTempString){
         if (meanTempString.isEmpty())
             meanTempString = "Unavailable";
